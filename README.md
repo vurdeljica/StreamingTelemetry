@@ -98,5 +98,10 @@ Možete proveriti da li Grafana radi tako što ćete iz internet pretraživača 
 
 :warning: **Ako restartujete virtuelnu mašinu potrebno je ponovo pokrenuti sva tri programa/servisa. To možete uraditi ponovnim unošenjem 'systemctl' komandi.**
 
+4. (Opciono) Instalacija Cisco YANG Suite-a
+Ovaj alat sluzi za istrazivanje i proveru podataka koji se mogu primiti sa Cisco uređaja. Preporuka je da namestite ovaj alata, ali on nije neophodan. Uputstvo kako namestiti ovaj alat se nalazi na [GitHub repou](https://github.com/CiscoDevNet/yangsuite/).
+
 # Konfiguracija virtuelnog rutera
+
+
 
