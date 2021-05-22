@@ -50,5 +50,53 @@ Potrebno je instalirati tri alata:
 - InfluxDB - čuvanje prikupljenih podataka.
 - Grafana - iscrtavanje prikupljenih podataka.
 
+1. Uključite virtuelnu mašinu i otvorite konzolu. Svi alati su instalirani preko komande linije.
+2. Instalacija InfluxDB-a. 
+```
+# Trust the Influx GPG key
+wget -qO- https://repos.influxdata.com/influxdb.key | sudo apt-key add -
+# Add the Influx repositories to apt
+source /etc/lsb-release
+echo "deb https://repos.influxdata.com/${DISTRIB_ID,,} ${DISTRIB_CODENAME} stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
+
+# Update the repositories, and install influx
+sudo apt-get update && sudo apt-get install influxdb
+
+# Enable influx, and start it
+sudo systemctl unmask influxdb.service
+sudo systemctl start influxdb
+```
+Možete proveriti da li InfluxDB radi tako što ćete u konzoli ukucati **influx**.
+
+2. Instalacija Telegrafa.
+```
+# Update the repositories, and install telegraf
+sudo apt-get update && sudo apt-get install telegraf
+
+# Generate the telegraf configuration with input from Cisco
+# devices, and output to Influxdb
+sudo telegraf --output-filter influxdb --input-filter cisco_telemetry_mdt config | sudo tee /etc/telegraf/telegraf.conf
+
+# Enable and start the service
+sudo systemctl enable telegraf
+sudo systemctl start telegraf
+```
+Možete proveriti da li Telegraf radi tako što ćete proveriti da li otvoren port 57000 na virtuelnoj mašini. 
+To možete uraditi komandom: ```sudo ss -plant```.
+
+3. Instalacija Grafane.
+```
+sudo add-apt-repository "deb https://packages.grafana.com/oss/deb stable main"
+wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
+sudo apt-get update
+sudo apt-get install grafana
+
+sudo systemctl daemon-reload
+sudo systemctl start grafana-server
+```
+Možete proveriti da li Grafana radi tako što ćete iz internet pretraživača otvoriti URL: **http://localhost:3000/** i uneti kredencijale **admin/admin**.
+
+:warning: **Ako restartujete virtuelnu mašinu potrebno je ponovo pokrenuti sva tri programa/servisa. To možete uraditi ponovnim unošenjem 'systemctl' komandi.**
+
 # Konfiguracija virtuelnog rutera
 
