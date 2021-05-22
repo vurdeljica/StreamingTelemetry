@@ -102,6 +102,43 @@ Možete proveriti da li Grafana radi tako što ćete iz internet pretraživača 
 Ovaj alat sluzi za istrazivanje i proveru podataka koji se mogu primiti sa Cisco uređaja. Preporuka je da namestite ovaj alata, ali on nije neophodan. Uputstvo kako namestiti ovaj alat se nalazi na [GitHub repou](https://github.com/CiscoDevNet/yangsuite/).
 
 # Konfiguracija virtuelnog rutera
+U ovo poglavlju je dato detaljno uputstvo kako namestiti virutelni ruter.
+Za dobijanje image potrebno je obratiti se profesoru.
+
+## Priprema image-a
+Image dolazi u qcow2 formatu (prilagođen za QEMU), koji nije pogodan za učitavanje u VMware Workstation Player.
+Image je potrebno konvertovati u prikladan (vmdk) format. Za konverziju je korišćen [**qemu-img.exe**](https://cloudbase.it/qemu-img-windows/).
+Konverziju je moguće uraditi putem pokretanja komande: 
+```
+qemu-img convert -f qcow2 -O vmdk -o subformat=streamOptimized source_qcow_image_path destination_path_to_vmdk
+```
+
+Sledeći korak je da napravimo virtuelnu mašinu koristeći VMware Workstation Player. Fajl koji smo dobili konverzijom predstavlja samo virtuelni disk, te je potrebno napraviti novu virtuelnu mašinu, a kovertovani fajl je potrebno postaviti kao disk od virtuelne mašine. Koraci:
+1) Pokrenuti VMware Workstation Player i odabrati opciju **Create a New Virtual Machine**.
+2) U novom prozoru odabrati opciju **I will install operating system later**.
+![Ruter1](https://user-images.githubusercontent.com/18577840/119234986-aa01c880-bb30-11eb-8050-a5a1aca3272b.PNG)
+3) U novom prozoru za verziju i tip operativnog sistema je potrebno izabrati **Other**.
+![Ruter2](https://user-images.githubusercontent.com/18577840/119235044-d584b300-bb30-11eb-805c-6347c08e375d.PNG)
+4) U novom prozoru unesite željeno ime virtuelne mašine (npr. csr1000v).
+5) Kroz ostatak kreiranja virtuelne mašine samo koristite opciju **next** i **finish**.
+6) Podesite RAM memoriju na 3GB, a za broj virtuelnih procesore staviti 3 (možete probati i sa manjim brojem). Ako ne znate kako ovo da uradite, pogledajte pogavlja o pripremi virtuelnog računara.
+7) Trenutno smo kreirali novu virtuelnu mašinu, ali tek je potrebno postaviti njen virtuelni disk. Idite u opcije i u meniju sa strane odaberite opciju **Hard Disk**, a zatim kliknuti **Remove**.
+![Ruter3](https://user-images.githubusercontent.com/18577840/119235221-b33f6500-bb31-11eb-93bc-c1de4312f32d.PNG)
+8) Sada je potrebno postaviti novi disk. Idite na opciju **Add** i odaberite opciju **Hard Disk**.
+9) U narednom prozoru obeležite tip **IDE**.
+10) U narednom prozoru odaberite opciju **Use an existing virtual disk**.
+![Ruter4](https://user-images.githubusercontent.com/18577840/119235285-06b1b300-bb32-11eb-97a3-fba9de91ce0d.PNG)
+11) U narednom prozoru uneti putanju do fajla koji ste dobili konverzijom.
+12) Virtuelnoj mašini je potrebno dodeliti i 4 mrežna adaptera.
+    - Mrežni adapter **Network Adapter** postaviti da koristi NAT i obeležiti opciju **Connect at power on**.
+      ![Ruter5](https://user-images.githubusercontent.com/18577840/119235731-42e61300-bb34-11eb-83af-ff561528cf04.PNG)
+
+    - Mrežni adapter **Network Adapter 4** postaviti da koristi VMnet0 i obeležiti opciju **Connect at power on**.
+      ![Ruter6](https://user-images.githubusercontent.com/18577840/119235733-45486d00-bb34-11eb-9649-d054ada719c8.PNG)
+14) Pokrenite virtuelnu mašinu kako biste se uverili da ona radi.
+15) Kada pokrenete virtuelnu mašinu odaberite opciju **Golden image**. 
+![Ruter7](https://user-images.githubusercontent.com/18577840/119235841-a708d700-bb34-11eb-8e55-4deee7f2aadd.PNG)
+
 
 
 
