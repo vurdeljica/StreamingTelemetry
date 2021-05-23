@@ -27,7 +27,7 @@ U nastavku su dati koraci kako kreirati virtuelnu mašinu:
 1. Na datom linku potrebno je skinuti operativni sistem. Odabrana verzija treba da bude: **kubuntu-18.04.5-desktop-amd64.iso**
 2. Otvorite VMWare Worksation Player i odaberite opciju **Create a New Virtual Machine**
 ![Ubuntu1](https://user-images.githubusercontent.com/18577840/119225015-9854fc80-bb01-11eb-97b6-f17a7e6ada4a.PNG)
-3. Potrebno je odabrati opciju **Installer disc image file (iso)** i odabrati putanju do prethodno preuzetog operativnog sistema.
+3. Potrebno je odabrati opciju **Installer disc image file (iso)** i odabrati putanju do prethodno preuzetog operativnog sistema.  
 ![Ubuntu2](https://user-images.githubusercontent.com/18577840/119225077-fbdf2a00-bb01-11eb-9eee-8d5a48d26f04.PNG)
 4. Klikom na dugme **next** pojavljuje se novi prozor gde je potrebno uneti ima računara kao i login kredencijale. Radi jednostavnosti tokom celog uputstva ćemo koristiti reč **cisco** i kao username i kao password.
 ![Ubuntu3](https://user-images.githubusercontent.com/18577840/119225128-42cd1f80-bb02-11eb-8cf1-9806f8346bf9.PNG)
