@@ -1,6 +1,6 @@
 # Uvod
 
-Ovaj fajl predstavlja uputstvo kako namestiti virtuelnu mrežu u cilju testiranja Streaming Telemety na Cisco CSR1000V ruteru. Mreža je mala, ali sasvim dovoljna za testiranja telemetrije. Sastoji se od: 
+Ovaj fajl predstavlja uputstvo kako namestiti virtuelnu mrežu u cilju testiranja Streaming Telemetry na Cisco CSR1000V ruteru. Mreža je mala, ali sasvim dovoljna za testiranja telemetrije. Sastoji se od: 
 - Virtuelnog računara (Linux Kubuntu 18.04 LTS) koji služi za prihvatanje telemetrijskih podataka sa rutera i njihovo iscrtavanje, kao i za generisanje saobraćaja kako bi podaci dobijeni telemetrijom bili smisleniji.
 - Virtuelnog rutera (Cisco CSR1000V na kome je Cisco IOS XE 16.12.03 operativni sistem) koji služi da omogući virtuelnom računaru pristup internetu, kao i da šalje telemetrijske podatke računaru.
 
@@ -36,15 +36,15 @@ U nastavku su dati koraci kako kreirati virtuelnu mašinu:
 7. Isključite virtuelnu mašinu.
 
 ## Konfiguracija virtuelne mašine
-Potrebno je prilagoditi mrežni interfejs, kao i količinu RAM memorije i broja logičkih procesora datih virtuelnoj mašini.
+Potrebno je prilagoditi mrežni interfejs, kao i količinu RAM memorije i broj logičkih procesora datih virtuelnoj mašini.
 1. Odaberite opciju **Edit virtual machine settings**.
 ![Ubuntu4](https://user-images.githubusercontent.com/18577840/119225605-e9b2bb00-bb04-11eb-9c0d-8e4dcecb29b5.PNG)
 2. Otvoriće se novi prozor, gde u meniju sa strane možete odabrati **Processors** i **Memory** kako biste promenili broj logičkih procesora, kao i količinu RAM memorije u zavisnosti od hardvera na kome radite. Minimum je potrebno postaviti 3GB RAM i 2 CPU.
-3. Zatim odaberite opciju ** Network Adapter** (takođe se nalazi u meniju sa strane) i izaberite oopciju **Custom: Specific Virtual Network** i iz padajuće liste odaberite **VMNet0**.
+3. Zatim odaberite opciju **Network Adapter** (takođe se nalazi u meniju sa strane) i izaberite opciju **Custom: Specific Virtual Network** i iz padajuće liste odaberite **VMNet0**.
 ![Ubuntu5](https://user-images.githubusercontent.com/18577840/119225775-3945b680-bb06-11eb-9498-8d4990579476.PNG)
 4. Potrebno je namestiti i opciju **ethernet.virtualdev**. Ovu opciju nije moguće pronaći u GUI-u, te je potrebno ručno modifikovati konfiguracioni fajl od napravljene virtuelne mašine. Locirajte gde se nalazi mašina na vašem računaru (obično je u: **Documents\Virtual Machines\Ubuntu 64-bit**). Konfiguracioni fajl ima ekstenziju .vmx. Otvorite ga u tekstualnom editoru i promenite opciju: **ethernet0.virtualDev = "vmxnet3"**.
 5. U ovom koraku želimo da namestimo IP adresu računara, gateway, kao i DNS. Potrebno je uključiti virtuelnu mašinu.
-   - Treba da pronađete ime mrežnog interfejsa. U ovom slučaju je ens160 (ali možda kod vas bude drugačije). Ovo možete postići tako što ćete pročitati izlaz komande: 
+   - Treba da pronađete ime mrežnog interfejsa. U ovom slučaju je **ens160** (ali možda kod vas bude drugačije). Ovo možete postići tako što ćete pročitati izlaz komande: 
      ```ifconfig```
    - Kada je pronađeno ime interfejsa, potrebno je promeniti **netplan** konfiguracioni fajl. Putanja do fajla je: ```/etc/netplan/01-network-manager-all.yaml```.
      Potrebno je promeniti sadržaj fajla tako da izgleda ovako:
@@ -119,11 +119,11 @@ Možete proveriti da li Grafana radi tako što ćete iz internet pretraživača 
 :warning: **Ako restartujete virtuelnu mašinu potrebno je ponovo pokrenuti sva tri programa/servisa. To možete uraditi ponovnim unošenjem 'systemctl' komandi.**
 
 4. (Opciono) Instalacija Cisco YANG Suite-a
-Ovaj alat sluzi za istrazivanje i proveru podataka koji se mogu primiti sa Cisco uređaja. Preporuka je da namestite ovaj alata, ali on nije neophodan. Uputstvo kako namestiti ovaj alat se nalazi na [GitHub repou](https://github.com/CiscoDevNet/yangsuite/).
+Ovaj alat sluzi za istrazivanje i proveru podataka koji se mogu primiti sa Cisco uređaja. Preporuka je da namestite ovaj alat, ali on nije neophodan. Uputstvo kako namestiti ovaj alat se nalazi na [GitHub repou](https://github.com/CiscoDevNet/yangsuite/).
 
 # Konfiguracija virtuelnog rutera
 U ovo poglavlju je dato detaljno uputstvo kako namestiti virutelni ruter.
-Za dobijanje image potrebno je obratiti se profesoru.
+Za dobijanje image-a potrebno je obratiti se profesoru.
 
 ## Priprema image-a
 Image dolazi u qcow2 formatu (prilagođen za QEMU), koji nije pogodan za učitavanje u VMware Workstation Player.
@@ -222,7 +222,7 @@ U ovom trenutku bi trebalo da preko virtuelnog računara možete da pristupite i
 
 ## Konfiguracija streaming telemetry
 U ovom poglavlju biće date komande kako konfigurisati ruter da šalje telemetrijske podatke. 
-Ruter može da šalje razne podatke (YANG Suite name može pomoći da istražimo koje sve podatke možemo da šaljemo), ali mi ćemo se fokusirati na tri tipa podataka: 
+Ruter može da šalje razne podatke (YANG Suite nam može pomoći da istražimo koje sve podatke možemo da šaljemo), ali mi ćemo se fokusirati na tri tipa podataka: 
 iskorišćenje procesora, iskorišćenje memorije i mrežni saobraćaj. 
 1. Prvi korak je da se konfiguriše NETCONF-YANG:
 ```
@@ -292,7 +292,7 @@ Svi procesi moraju da imaju status **Running**. Ukoliko to nije slučaj, slanje 
 # Prikazivanje podataka dobijenih od rutera.
 U ovom poglavlju su dati koraci kako prikazati primljene telemetrijske podatke. Koraci:
 1. Unesite adresu **http://localhost:3000/** u internet pretraživač.
-2. Naći i odabrati opciju **Data sources**.
+2. Pronaći i odabrati opciju **Data sources**.
 3. Unesite podešavanja kao što su na slici:
    <img width="923" alt="Grafana - new datasource" src="https://user-images.githubusercontent.com/18577840/119274025-1f8f9680-bc0e-11eb-94f5-41119c61640b.png">
 4. Nakon ovoga možete napraviti novi **dashboard** na kome možete kreirati grafikone.
@@ -305,7 +305,7 @@ U ovom poglavlju su dati koraci kako prikazati primljene telemetrijske podatke. 
    USE <DATABASE>
    select * from <TABLE>
    ```
-6. Ukoliko primetite da je iskorišćenje procesora stalno 0% moguće je veštački simulirati zauzeće procesora. Pokrenite sledeću komandu na ruteru:
+6. Ukoliko primetite da je iskorišćenje procesora stalno 0% moguće je veštački simulirati zauzeće procesora. Pokrenite sledeću komandu (nekoliko puta) na ruteru:
    ``` 
    test cpurmi hog simple 1
    ```
