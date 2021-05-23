@@ -43,6 +43,26 @@ Potrebno je prilagoditi mrežni interfejs, kao i količinu RAM memorije i broja 
 3. Zatim odaberite opciju ** Network Adapter** (takođe se nalazi u meniju sa strane) i izaberite oopciju **Custom: Specific Virtual Network** i iz padajuće liste odaberite **VMNet0**.
 ![Ubuntu5](https://user-images.githubusercontent.com/18577840/119225775-3945b680-bb06-11eb-9498-8d4990579476.PNG)
 4. Potrebno je namestiti i opciju **ethernet.virtualdev**. Ovu opciju nije moguće pronaći u GUI-u, te je potrebno ručno modifikovati konfiguracioni fajl od napravljene virtuelne mašine. Locirajte gde se nalazi mašina na vašem računaru (obično je u: **Documents\Virtual Machines\Ubuntu 64-bit**). Konfiguracioni fajl ima ekstenziju .vmx. Otvorite ga u tekstualnom editoru i promenite opciju: **ethernet0.virtualDev = "vmxnet3"**.
+5. U ovom koraku želimo da namestimo IP adresu računara, gateway, kao i DNS. Potrebno je uključiti virtuelnu mašinu.
+   - Treba da pronađete ime mrežnog interfejsa. U ovom slučaju je ens160 (ali možda kod vas bude drugačije). Ovo možete postići tako što ćete pročitati izlaz komande: 
+     ```ifconfig```
+   - Kada je pronađeno ime interfejsa, potrebno je promeniti **netplan** konfiguracioni fajl. Putanja do fajla je: ```/etc/netplan/01-network-manager-all.yaml```.
+     Potrebno je promeniti sadržaj fajla tako da izgleda ovako:
+     ```
+     network:
+     ethernets:
+     ens160:
+         addresses: [10.0.0.2/24]
+         gateway4: 10.0.0.1
+         dhcp4: false
+         optional: false
+         nameservers:
+         addresses: [8.8.8.8,8.8.4.4]
+     version: 2
+     renderer: NetworkManager
+
+     ```
+  - Potom izvršite komandu: ```sudo netplan apply```
 
 ## Instalacija dodatnih alata
 Potrebno je instalirati tri alata:
@@ -50,7 +70,7 @@ Potrebno je instalirati tri alata:
 - InfluxDB - čuvanje prikupljenih podataka.
 - Grafana - iscrtavanje prikupljenih podataka.
 
-1. Uključite virtuelnu mašinu i otvorite konzolu. Svi alati su instalirani preko komande linije.
+1. Uključite virtuelnu mašinu i otvorite konzolu. Svi alati su instalirani preko komandne linije.
 2. Instalacija InfluxDB-a. 
 ```
 # Trust the Influx GPG key
