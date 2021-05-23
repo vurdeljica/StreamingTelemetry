@@ -142,19 +142,19 @@ Sledeći korak je da napravimo virtuelnu mašinu koristeći VMware Workstation P
 ![Ruter7](https://user-images.githubusercontent.com/18577840/119235841-a708d700-bb34-11eb-8e55-4deee7f2aadd.PNG)
 
 ## Konfiguracija mrežnih interfejsa rutera
-U prethodnom koraku smo definisali četiri mrežna adaptera, ali ćemo koristiti samo dva. Mrežni adapter 0 ćemo koristiti za povezivanje sa virtuelnim račuarom, a mrežni adapter 4 ćemo koristiti za povezivanje sa NAT-om. Komanda koja će nam biti korisna za proveru statusa mrežnih interfejsa je:
+U prethodnom koraku smo definisali četiri mrežna adaptera, ali ćemo koristiti samo dva. Mrežni adapter 4 ćemo koristiti za povezivanje sa virtuelnim račuarom, a mrežni adapter 1 ćemo koristiti za povezivanje sa NAT-om. Komanda koja će nam biti korisna za proveru statusa mrežnih interfejsa je:
 ```
 show ip interface brief
 ```
 
-### Konfiguracija mrežnog adaptera 0.
+### Konfiguracija mrežnog adaptera 4.
 ```
 enable
 configure terminal
-interface GigabitEthernet 1
+interface GigabitEthernet 4
 no shutdown
 ip address 10.0.0.1 255.255.255.0
-end
+exit
 copy running-config startup-config
 ```
 
@@ -163,9 +163,35 @@ Sada bi trebalo da smo u mogućnosti da pingujemo virtuelni računar. Proveriti 
 ping 10.0.0.2
 ```
 
-### Konfiguracija mrežnog adaptera 4.
+### Konfiguracija mrežnog adaptera 1.
+1. Defisanje DHCP-a na interfejsu:
+```
+enable
+configure terminal
+interface GigabitEthernet 1
+no shutdown
+ip address dhcp
+exit
+copy running-config startup-config
+```
 
-Sada bi trebalo da možemo da pristupamo svim globalnim internet adresama.
+2. Definisanje NAT-a na interfejsu:
+```
+enable
+configure terminal
+interface GigabitEthernet 1
+ip nat outside
+end
+configure terminal
+interface GigabitEthernet 4
+ip nat inside
+end
+configure terminal
+ip nat inside source list 1 interface GigabitEthernet 1 overload
+access-list 1 permit host 10.0.0.2
+end
+copy running-config startup-config
+```
 
 ## Konfiguracija streaming telemetry
 U ovom poglavlju biće date komande kako konfigurisati ruter da šalje telemetrijske podatke. 
