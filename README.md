@@ -62,7 +62,7 @@ Potrebno je prilagoditi mrežni interfejs, kao i količinu RAM memorije i broja 
      renderer: NetworkManager
 
      ```
-  - Potom izvršite komandu: ```sudo netplan apply```
+   - Potom izvršite komandu: ```sudo netplan apply```
 
 ## Instalacija dodatnih alata
 Potrebno je instalirati tri alata:
@@ -183,6 +183,11 @@ Sada bi trebalo da smo u mogućnosti da pingujemo virtuelni računar. Proveriti 
 ping 10.0.0.2
 ```
 
+Takođe, proverite da li sledeća komanda radi na virtuelnom računaru:
+```
+ping 10.0.0.1 
+```
+
 ### Konfiguracija mrežnog adaptera 1.
 1. Defisanje DHCP-a na interfejsu:
 ```
@@ -212,6 +217,8 @@ access-list 1 permit host 10.0.0.2
 end
 copy running-config startup-config
 ```
+
+U ovom trenutku bi trebalo da preko virtuelnog računara možete da pristupite internetu.
 
 ## Konfiguracija streaming telemetry
 U ovom poglavlju biće date komande kako konfigurisati ruter da šalje telemetrijske podatke. 
@@ -283,7 +290,26 @@ Svi procesi moraju da imaju status **Running**. Ukoliko to nije slučaj, slanje 
      ```
 
 # Prikazivanje podataka dobijenih od rutera.
+U ovom poglavlju su dati koraci kako prikazati primljene telemetrijske podatke. Koraci:
+1. Unesite adresu **http://localhost:3000/** u internet pretraživač.
+2. Naći i odabrati opciju **Data sources**.
+3. Unesite podešavanja kao što su na slici:
+   <img width="923" alt="Grafana - new datasource" src="https://user-images.githubusercontent.com/18577840/119274025-1f8f9680-bc0e-11eb-94f5-41119c61640b.png">
+4. Nakon ovoga možete napraviti novi **dashboard** na kome možete kreirati grafikone.
+5. Ukoliko ne možete da pronađete podatke, proverite da li se oni nalaze u InfluxDB bazi. Korisne komande su:
+   ```
+   influx
+   SHOW DATABASES
+   SHOW MEASUREMENTS
+   SHOW RETENTION POLICY
+   USE <DATABASE>
+   select * from <TABLE>
+   ```
+6. Ukoliko primetite da je iskorišćenje procesora stalno 0% moguće je veštački simulirati zauzeće procesora. Pokrenite sledeću komandu na ruteru:
+   ``` 
+   test cpurmi hog simple 1
+   ```
+7. Primer kako izgleda dashboard sa tri grafikona:
+   ![Grafana](https://user-images.githubusercontent.com/18577840/119274176-ec013c00-bc0e-11eb-88ee-b0b135618481.png)
 
-
-
-
+8. Uputstvo kako dodati novi panel i grafikon možete pronaći na linku: [Add a panel](https://grafana.com/docs/grafana/latest/panels/add-a-panel/)
