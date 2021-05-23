@@ -167,7 +167,7 @@ U prethodnom koraku smo definisali četiri mrežna adaptera, ali ćemo koristiti
 show ip interface brief
 ```
 
-### Konfiguracija mrežnog adaptera 4.
+### Konfiguracija mrežnog adaptera 4
 ```
 enable
 configure terminal
@@ -188,7 +188,7 @@ Takođe, proverite da li sledeća komanda radi na virtuelnom računaru:
 ping 10.0.0.1 
 ```
 
-### Konfiguracija mrežnog adaptera 1.
+### Konfiguracija mrežnog adaptera 1
 1. Defisanje DHCP-a na interfejsu:
 ```
 enable
@@ -289,7 +289,7 @@ Svi procesi moraju da imaju status **Running**. Ukoliko to nije slučaj, slanje 
      copy running-config startup-config
      ```
 
-# Prikazivanje podataka dobijenih od rutera.
+# Prikazivanje podataka dobijenih od rutera
 U ovom poglavlju su dati koraci kako prikazati primljene telemetrijske podatke. Koraci:
 1. Unesite adresu **http://localhost:3000/** u internet pretraživač.
 2. Pronaći i odabrati opciju **Data sources**.
